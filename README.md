@@ -6,64 +6,53 @@
 git clone https://github.com/tallesemmanuel/conversao-temperatura.git
 ```
 
+## Requisitos - Ter instalado os seguintes serviços.
+
+- Kubectl - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+- K3d - https://k3d.io/v5.4.1/
+
 ## Como iniciar com esse projeto
 
 Download do projeto.
 
 ```bash
-git clone https://github.com/tallesemmanuel/conversao-temperatura.git
+git clone https://github.com/tallesemmanuel/kubernetes-conversao-temperatura.git
 ```
 
-Para criação de uma nova imagem.
+- Iniciar um cluster.
+
+No meu caso, estou subindo um cluster com 3 agents e 3 servers, analise se para você da certo o total de nós.
 
 ```bash
-docker build -t tallesalencar/conversao-temperatura:v1 .
+k3d cluster create cluster-temperatura --agents 3 --servers 3 -p "8080:30000@loadbalancer"
 ```
 
-Para criação da tag "latest"
+- Para realizar o deployment da aplicação, se da necessário rodar apenas um comando.
 
 ```bash
-docker tag tallesalencar/conversao-temperatura:v1 tallesalencar/conversao-temperatura:latest
+kubectl apply -f deployment.yml
 ```
 
-Para visualizar a imagem.
+- Você pode acompanhar os serviços com o comando.
+Nele você consegue ver todos os "pods", "services", "replicateSets", "deployments" e etc.
 
 ```bash
-docker image ls
+kubectl get all
 ```
 
-Exemplo de execução do container.
+Saída do comando.
 
 ```bash
-docker container run -d \
-  --name app-conversao-temperatura \
-  --restart unless-stopped \
-  -p 8080:8080 \
-  tallesalencar/conversao-temperatura:latest
+NAME                                         READY   STATUS    RESTARTS   AGE
+pod/conversao-temperatura-54bb868989-wqk86   1/1     Running   0          8m17s
+
+NAME                            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+service/conversao-temperatura   NodePort    10.43.42.227   <none>        80:30000/TCP   8m17s
+service/kubernetes              ClusterIP   10.43.0.1      <none>        443/TCP        9m25s
+
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/conversao-temperatura   1/1     1            1           8m17s
+
+NAME                                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/conversao-temperatura-54bb868989   1         1         1       8m17s
 ```
-
-Para visualização a aplicação. Digite o comando no seu navegador.
-
-```bash
-localhost:8080
-```
-
-Para ver o status da aplicação pelo log do container.
-
-```bash
-docker logs -f app-conversao-temperatura
-```
-
-Para realizar o push da sua imagem para o Hubdocker.
-
-```bash
-docker push tallesalencar/conversao-temperatura:v1
-```
-
-e a latest
-
-```bash
-docker push tallesalencar/conversao-temperatura:latest
-```
-
-Bom estudo!
