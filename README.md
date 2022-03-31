@@ -10,6 +10,7 @@ git clone https://github.com/tallesemmanuel/conversao-temperatura.git
 
 - Kubectl - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 - K3d - https://k3d.io/v5.4.1/
+- Docker - https://docs.docker.com/engine/install/ubuntu/
 
 ## Como iniciar com esse projeto
 
@@ -22,6 +23,7 @@ git clone https://github.com/tallesemmanuel/kubernetes-conversao-temperatura.git
 - Iniciar um cluster.
 
 No meu caso, estou subindo um cluster com 3 agents e 3 servers, analise se para você da certo o total de nós.
+Também neste comando, estou especificando a porta da aplicação "8080", mapeando localmente uma porta "30000" para o loadbalancer, caso tenha muitos pods e seja escalável.
 
 ```bash
 k3d cluster create cluster-temperatura --agents 3 --servers 3 -p "8080:30000@loadbalancer"
