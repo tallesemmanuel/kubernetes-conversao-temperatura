@@ -3,7 +3,7 @@
 ### Para entender toda criação do build da imagem em docker. Veja esse link abaixo.
 
 ```bash
-git clone https://github.com/tallesemmanuel/kubernetes-conversao-temperatura.git
+git clone https://github.com/tallesemmanuel/conversao-temperatura.git
 ```
 
 ## Requisitos - Ter instalado os seguintes serviços.
